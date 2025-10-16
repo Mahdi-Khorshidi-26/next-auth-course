@@ -42,6 +42,7 @@ export default function Register() {
 
   const handleSubmit = async (data: z.infer<typeof formSchema>) => {
     const response = await registerUser(data);
+    console.log(data);
     console.log(response);
   };
 
@@ -103,16 +104,16 @@ export default function Register() {
                   );
                 }}
               />
+              <CardFooter className="px-0">
+                <CardAction className="w-full">
+                  <Button type="submit" className="cursor-pointer w-full">
+                    Submit
+                  </Button>
+                </CardAction>
+              </CardFooter>
             </form>
           </Form>
         </CardContent>
-        <CardFooter>
-          <CardAction className="w-full">
-            <Button type="submit" className="cursor-pointer w-full">
-              Submit
-            </Button>
-          </CardAction>
-        </CardFooter>
       </Card>
     </main>
   );
