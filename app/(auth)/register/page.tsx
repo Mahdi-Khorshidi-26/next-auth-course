@@ -132,12 +132,18 @@ export default function Register() {
                       );
                     }}
                   />
-                  <CardFooter className="px-0">
+                  <CardFooter className="flex-col gap-2 px-0">
                     <CardAction className="w-full">
                       <Button type="submit" className="cursor-pointer w-full">
-                        Submit
+                        Register
                       </Button>
                     </CardAction>
+                    <div className="text-muted-foreground text-sm">
+                      Already have an account?{" "}
+                      <Link href="/login" className="underline">
+                        Log in
+                      </Link>
+                    </div>
                   </CardFooter>
                 </fieldset>
               </form>
