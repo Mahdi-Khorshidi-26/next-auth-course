@@ -4,6 +4,7 @@ import db from "@/db/drizzle";
 import passwordMatchValidationSchema from "@/validation/passwordMatchValidation";
 import z from "zod";
 import { hash } from "bcryptjs";
+import { users } from "@/db/usersSchema";
 export default async function registerUser({
   email,
   password,
@@ -13,23 +14,41 @@ export default async function registerUser({
   password: string;
   confirmPassword: string;
 }) {
-  const newUserValidationSchema = z
-    .object({
-      email: z.string().email("Invalid email address"),
-    })
-    .and(passwordMatchValidationSchema);
+  try {
+    const newUserValidationSchema = z
+      .object({
+        email: z.string().email("Invalid email address"),
+      })
+      .and(passwordMatchValidationSchema);
 
-  const validatedData = newUserValidationSchema.safeParse({
-    email,
-    password,
-    confirmPassword,
-  });
+    const validatedData = newUserValidationSchema.safeParse({
+      email,
+      password,
+      confirmPassword,
+    });
 
-  if (!validatedData.success) {
-    return {
-      error: true,
-      message: validatedData.error.issues[0].message,
-    };
+    if (!validatedData.success) {
+      return {
+        error: true,
+        message: validatedData.error.issues[0].message,
+      };
+    }
+    const hashedPassword = await hash(validatedData.data.password, 10);
+
+    await db.insert(users).values({
+      email: validatedData.data.email,
+      password: hashedPassword,
+    });
+    return { error: false, message: "User registered successfully" };
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (e: any) {
+    console.log('error . code is : ',e.code);
+    if (e.code === "23505") {
+      return {
+        error: true,
+        message: "An account is already registered with this email",
+      };
+    }
+    return { error: true, message: e?.message || "Something went wrong" };
   }
-  const hashedPassword = await hash(validatedData.data.password, 10);
 }
