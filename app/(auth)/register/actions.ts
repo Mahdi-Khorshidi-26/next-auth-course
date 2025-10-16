@@ -1,8 +1,9 @@
 "use server";
 
+import db from "@/db/drizzle";
 import passwordMatchValidationSchema from "@/validation/passwordMatchValidation";
 import z from "zod";
-
+import { hash } from "bcryptjs";
 export default async function registerUser({
   email,
   password,
@@ -30,4 +31,5 @@ export default async function registerUser({
       message: validatedData.error.issues[0].message,
     };
   }
+  const hashedPassword = await hash(validatedData.data.password, 10);
 }
