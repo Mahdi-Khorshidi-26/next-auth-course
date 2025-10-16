@@ -42,8 +42,7 @@ export default async function registerUser({
     return { error: false, message: "User registered successfully" };
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (e: any) {
-    console.log('error . code is : ',e.code);
-    if (e.code === "23505") {
+    if (e.cause?.code === "23505" || e.code === "23505") {
       return {
         error: true,
         message: "An account is already registered with this email",
