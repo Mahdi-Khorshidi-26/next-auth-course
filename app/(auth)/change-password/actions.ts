@@ -7,6 +7,7 @@ export function changePassword({
   password: string;
   confirmPassword: string;
 }) {
+  console.log({ currentPassword, password, confirmPassword });
   // Implement your password change logic here
   return { error: false, message: "Password changed successfully" };
 }
