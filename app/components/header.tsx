@@ -1,8 +1,11 @@
 import Link from "next/link";
 import LogoutButton from "./logoutButton";
 import LoggedinUserEmail from "./userEmail";
+import { Button } from "@/components/ui/button";
+import { auth } from "@/auth";
 
 export default async function Header() {
+  const session = await auth();
 
   return (
     <header className="flex justify-between items-center p-4 bg-gray-100">
@@ -18,7 +21,13 @@ export default async function Header() {
       </nav>
       <div className="flex items-center space-x-4">
         <LoggedinUserEmail />
-        <LogoutButton />
+        {!!session?.user?.id ? (
+          <LogoutButton />
+        ) : (
+          <Button asChild>
+            <Link href="/login">Login</Link>
+          </Button>
+        )}
       </div>
     </header>
   );

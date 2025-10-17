@@ -1,4 +1,5 @@
-"use client";
+import LoggedinUserEmail from "@/app/components/userEmail";
+import { auth } from "@/auth";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -8,8 +9,14 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
-export default function MyAccountPage() {
+export default async function MyAccountPage() {
+  const session = await auth();
+  if (!!session?.user?.id) {
+    redirect("/login");
+  }
+
   return (
     <main className="flex justify-center items-center min-h-screen">
       <Card className="w-[350px]">
@@ -17,7 +24,7 @@ export default function MyAccountPage() {
           <CardTitle className="text-4xl">My Account</CardTitle>
           <CardDescription className="mt-4">
             <div className="text-xl text-black">Email address</div>
-            {/* <LoggedinUserEmail /> */}
+            <LoggedinUserEmail />
           </CardDescription>
         </CardHeader>
         <br />
