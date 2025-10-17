@@ -4,6 +4,7 @@ import { users } from "@/db/usersSchema";
 import passwordMatchValidationSchema from "@/validation/passwordMatchValidation";
 import passwordValidationSchema from "@/validation/passwordValidation";
 import { compare, hash } from "bcryptjs";
+import { eq } from "drizzle-orm";
 import z from "zod";
 
 export async function changePassword({
