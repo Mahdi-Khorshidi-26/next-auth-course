@@ -7,5 +7,5 @@ export default async function LoggedinUserEmail() {
     return <div>No user currently logged in</div>;
   }
 
-  return <div>{session.user.email}</div>;
+  return <div className="text-black font-bold">{session.user.email}</div>;
 }

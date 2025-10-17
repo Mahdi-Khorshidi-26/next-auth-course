@@ -1,6 +1,7 @@
 import Link from "next/link";
 import LogoutButton from "./logoutButton";
 import { auth } from "@/auth";
+import LoggedinUserEmail from "./userEmail";
 
 export default async function Header() {
   const session = await auth();
@@ -18,13 +19,7 @@ export default async function Header() {
         </ul>
       </nav>
       <div className="flex items-center space-x-4">
-        <div>
-          {session?.user?.email ? (
-            <div>{session.user.email}</div>
-          ) : (
-            "No user currently logged in"
-          )}
-        </div>
+        <LoggedinUserEmail />
         <LogoutButton />
       </div>
     </header>
