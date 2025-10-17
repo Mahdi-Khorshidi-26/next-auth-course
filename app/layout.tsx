@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "./components/header";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
+import { Toaster } from "@/components/ui/sonner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,6 +35,7 @@ export default async function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <Toaster />
         <Header />
         {children}
       </body>

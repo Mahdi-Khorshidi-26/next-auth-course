@@ -23,6 +23,7 @@ import { useForm } from "react-hook-form";
 import z from "zod";
 import passwordValidationSchema from "@/validation/passwordValidation";
 import { changePassword } from "./actions";
+import { toast } from "sonner";
 
 const formSchema = z
   .object({
@@ -43,8 +44,10 @@ export default function ChangePasswordPage() {
   const handleSubmit = async (data: z.infer<typeof formSchema>) => {
     const response = await changePassword(data);
     if (response?.error) {
-      form.setError("currentPassword", { message: response?.message });
+      form.setError("root", { message: response?.message });
     }
+    form.reset();
+    toast.success("Password has been changed successfully");
     console.log(data);
     console.log(response);
   };
@@ -117,6 +120,11 @@ export default function ChangePasswordPage() {
                 />
                 <CardFooter className="flex-col gap-2 px-0">
                   <CardAction className="w-full">
+                    {!!form.formState.errors.root && (
+                      <FormMessage className="text-center mb-2">
+                        {form.formState.errors.root.message}
+                      </FormMessage>
+                    )}
                     <Button type="submit" className="cursor-pointer w-full">
                       Change Password
                     </Button>
